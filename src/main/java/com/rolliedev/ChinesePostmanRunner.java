@@ -1,5 +1,6 @@
 package com.rolliedev;
 
+import com.rolliedev.algo.BellmanFord;
 import com.rolliedev.algo.Dijkstra;
 import com.rolliedev.model.Graph;
 import com.rolliedev.model.Graph.Edge;

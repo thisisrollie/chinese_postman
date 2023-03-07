@@ -2,15 +2,14 @@ package com.rolliedev.algo;
 
 import com.rolliedev.model.Graph;
 import com.rolliedev.model.Graph.Vertex;
-import com.rolliedev.util.GraphConst;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 
-import static com.rolliedev.model.Graph.*;
+import static com.rolliedev.model.Graph.Edge;
 
-public final class Dijkstra {
+public final class Dijkstra extends ShortestPathAlgo {
 
     private Dijkstra() {
     }
@@ -40,16 +39,6 @@ public final class Dijkstra {
 //        return graph.getVertices().stream().map(Vertex::getMinDist).toList();
     }
 
-    private static List<Edge> getPathFromSrcToDestVertex(Graph graph, int destVIdx) {
-        List<Edge> path = new ArrayList<>();
-        Vertex vertex = graph.getVertexByIdx(destVIdx), prevVertex;
-        while ((prevVertex = vertex.getPrev()) != null) {
-            path.add(graph.getEdge(prevVertex, vertex));
-            vertex = prevVertex;
-        }
-        return path;
-    }
-
     /**
      * This method sets minimal distances for all neighbours of vertex.
      * If current minimal distance of neighbour d(neighbourV) is bigger than sum of minimal distance of source vertex d(srcV) and
@@ -67,15 +56,5 @@ public final class Dijkstra {
                 neighbour.setPrev(srcV);
             }
         });
-    }
-
-    /**
-     * This method sets minimal distance to zero for given vertex
-     *
-     * @param graph       given graph
-     * @param startVertex index of start vertex
-     */
-    private static void processGraph(Graph graph, int startVertex) {
-        graph.getVertexByIdx(startVertex).setMinDist(GraphConst.ZERO);
     }
 }

@@ -1,10 +1,12 @@
 package com.rolliedev.model;
 
-import com.rolliedev.util.GraphConst;
 import com.rolliedev.util.GraphUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
+import static com.rolliedev.util.GraphConst.INFINITY;
 import static java.util.function.Predicate.not;
 import static java.util.stream.Collectors.toList;
 
@@ -115,7 +117,7 @@ public class Graph {
         private int degree;
 
         public Vertex(int idx) {
-            this(idx, GraphConst.INFINITY);
+            this(idx, INFINITY);
         }
 
         private Vertex(int idx, int minDist) {
@@ -193,7 +195,7 @@ public class Graph {
         private int destVIdx;
         // it denotes the weight of edge
         private int weight;
-        // ...
+        // TODO: 3/7/2023 try to rename this variable for better understanding
         private int repeat;
 
         public Edge(int srcVIdx, int destVIdx, int weight) {
@@ -210,11 +212,6 @@ public class Graph {
         public void subRepeat() {
             repeat = repeat - 1;
         }
-
-//        public Edge(Edge edge, boolean flag) {
-//            this(edge.srcVIdx, edge.destVIdx, edge.weight);
-//            this.flag = flag;
-//        }
 
         @Override
         public String toString() {
