@@ -1,9 +1,22 @@
 package com.rolliedev;
 
+import com.google.common.base.Stopwatch;
+import com.rolliedev.algo.BellmanFord;
+import com.rolliedev.algo.Dijkstra;
 import com.rolliedev.model.Graph;
 import org.junit.Test;
 
 public class ChinesePostmanTest {
+
+    private void displayTimeExecuting(Runnable runnable) {
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        try {
+            runnable.run();
+        } finally {
+            var duration = stopwatch.elapsed();
+            System.out.println("Time: " + duration);
+        }
+    }
 
     @Test
     public void test1() {
@@ -23,7 +36,8 @@ public class ChinesePostmanTest {
                 {0, 0, 70, 0, 0, 0, 0, 70},
                 {0, 0, 120, 0, 0, 60, 70, 0}
         });
-        ChinesePostmanRunner.run(graph);
+        displayTimeExecuting(() -> ChinesePostmanRunner.run((Graph) graph.clone(), BellmanFord.class));
+        displayTimeExecuting(() -> ChinesePostmanRunner.run((Graph) graph.clone(), Dijkstra.class));
     }
 
     @Test
@@ -44,6 +58,7 @@ public class ChinesePostmanTest {
                 {0, 0, 0, 9, 8, 10, 0, 5},
                 {0, 0, 0, 0, 7, 9, 5, 0}
         });
-        ChinesePostmanRunner.run(graph);
+        displayTimeExecuting(() -> ChinesePostmanRunner.run((Graph) graph.clone(), BellmanFord.class));
+        displayTimeExecuting(() -> ChinesePostmanRunner.run((Graph) graph.clone(), Dijkstra.class));
     }
 }

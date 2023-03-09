@@ -1,7 +1,6 @@
 package com.rolliedev;
 
-import com.rolliedev.algo.BellmanFord;
-import com.rolliedev.algo.Dijkstra;
+import com.rolliedev.algo.ShortestPathAlgo;
 import com.rolliedev.model.Graph;
 import com.rolliedev.model.Graph.Edge;
 import com.rolliedev.util.GeneratorUtils;
@@ -14,17 +13,12 @@ import java.util.List;
 public class ChinesePostmanRunner {
 
     public static void main(String[] args) {
-        Graph graph = Graph.getGraphFromAdjMatrix(new int[][]{
-                {},
-                {}
-        });
-        run(graph);
     }
 
-    public static void run(Graph graph) {
+    public static <T extends ShortestPathAlgo> void run(Graph graph, Class<T> algoClass) {
         var allPairs = getAllPairsOfOddDegreeVertices(graph);
         System.out.println(allPairs);
-        var edgesWithMinWeight = getEdgesWithMinWeight(graph, allPairs);
+        var edgesWithMinWeight = getEdgesWithMinWeight(graph, algoClass, allPairs);
         System.out.println("Sum of all edges: " + graph.getSumOfAllEdges());
         int lengthOfRoute = graph.getSumOfAllEdges() + edgesWithMinWeight.stream().mapToInt(Edge::getWeight).sum();
         System.out.println(edgesWithMinWeight);
@@ -43,15 +37,20 @@ public class ChinesePostmanRunner {
         }
     }
 
-    private static List<Edge> getEdgesWithMinWeight(Graph graph, List<List<List<Integer>>> allPairs) {
+    private static <T extends ShortestPathAlgo> List<Edge> getEdgesWithMinWeight(Graph graph, Class<T> algoClass, List<List<List<Integer>>> allPairs) {
         List<List<Edge>> edgePairs = new ArrayList<>();
-        for (List<List<Integer>> pairs : allPairs) {
-            List<Edge> tmpList = new ArrayList<>();
-            for (List<Integer> pair : pairs) {
-                var edgesBetweenPair = Dijkstra.run(graph, pair.get(0), pair.get(1));
-                tmpList.addAll(edgesBetweenPair);
+        try {
+            for (List<List<Integer>> pairs : allPairs) {
+                List<Edge> tmpList = new ArrayList<>();
+                for (List<Integer> pair : pairs) {
+                    var runMethod = algoClass.getMethod("run", Graph.class, int.class, int.class);
+                    var edgesBetweenPair = (List<Edge>) runMethod.invoke(null, graph, pair.get(0), pair.get(1));
+                    tmpList.addAll(edgesBetweenPair);
+                }
+                edgePairs.add(tmpList);
             }
-            edgePairs.add(tmpList);
+        } catch (Exception exception) {
+            throw new RuntimeException(exception);
         }
         return edgePairs.stream()
                 .min(Comparator.comparing(edges -> edges.stream().mapToInt(Edge::getWeight).sum()))
