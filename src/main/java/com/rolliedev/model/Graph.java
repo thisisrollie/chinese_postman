@@ -18,7 +18,6 @@ public class Graph {
     private final List<Vertex> vertices;
     private final List<Edge> edges;
 
-
     private Graph(int vertices, List<Edge> edges) {
         this(GraphUtils.generateListOfVertices(vertices), edges);
     }

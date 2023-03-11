@@ -18,6 +18,7 @@ public final class GeneratorUtils {
         return Generator.combination(allPairs)
                 .simple(vIndexes.size() / 2)
                 .stream()
+                .parallel()
                 .filter(Predicate.not(pairs -> hasMutualVertices(pairs, vIndexes.size())))
                 .collect(Collectors.toList());
     }

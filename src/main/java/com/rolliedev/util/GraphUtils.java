@@ -29,14 +29,14 @@ public final class GraphUtils {
     /**
      * Fleur's Algorithm was used in this function
      */
-    public static List<Integer> getEulerCycle(Graph graph) {
+    public static List<Integer> getEulerCycle(Graph graph, int startVIdx) {
         if (!isEuler(graph)) {
             System.out.println("Graph does not have any Euler cycles");
             return Collections.emptyList();
         }
         List<Integer> eulerCycle = new ArrayList<>();
         var stack = new Stack<Vertex>();
-        stack.push(graph.getVertexByIdx(0));
+        stack.push(graph.getVertexByIdx(startVIdx));
         while (!stack.isEmpty()) {
             var u = stack.peek();
             if (graph.getAllNeighbours(u).size() == 0) {

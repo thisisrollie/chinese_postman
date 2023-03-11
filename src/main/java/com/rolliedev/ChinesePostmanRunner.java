@@ -15,7 +15,7 @@ public class ChinesePostmanRunner {
     public static void main(String[] args) {
     }
 
-    public static <T extends ShortestPathAlgo> void run(Graph graph, Class<T> algoClass) {
+    public static <T extends ShortestPathAlgo> void run(Graph graph, Class<T> algoClass, int startVIdx) {
         var allPairs = getAllPairsOfOddDegreeVertices(graph);
         System.out.println(allPairs);
         var edgesWithMinWeight = getEdgesWithMinWeight(graph, algoClass, allPairs);
@@ -23,7 +23,7 @@ public class ChinesePostmanRunner {
         int lengthOfRoute = graph.getSumOfAllEdges() + edgesWithMinWeight.stream().mapToInt(Edge::getWeight).sum();
         System.out.println(edgesWithMinWeight);
         setupEdges(graph, edgesWithMinWeight);
-        GraphUtils.getEulerCycle(graph).forEach(value -> System.out.print(value + " "));
+        GraphUtils.getEulerCycle(graph, startVIdx).forEach(value -> System.out.print(value + " "));
         System.out.println("\nThe length of Chinese postman route is " + lengthOfRoute);
     }
 
