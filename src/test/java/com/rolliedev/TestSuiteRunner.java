@@ -7,7 +7,8 @@ import static org.junit.runners.Suite.*;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-        ChinesePostmanTest.class
+        ChinesePostmanTest.class,
+        DijkstraTest.class
 })
 public class TestSuiteRunner {
 }

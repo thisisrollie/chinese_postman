@@ -34,7 +34,8 @@ public class DijkstraTest {
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 6, 0, 0},
                 {0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0}
         });
-        var actual = Dijkstra.run(graph, 0, 0);
+        Dijkstra.run(graph, 0);
+        var actual = Dijkstra.getMinDistances();
         var expected = List.of(0, 2, 4, 6, 9, 8, 9, 4, 8, 12, 16, 8, 11, 15, 5, 10, 16, 11);
         assertEquals(expected, actual);
     }
@@ -63,7 +64,8 @@ public class DijkstraTest {
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 6, 0, 0},
                 {0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0}
         });
-        var actual = Dijkstra.run(graph, 5, 0);
+        Dijkstra.run(graph, 5);
+        var actual = Dijkstra.getMinDistances();
         var expected = List.of(8, 7, 4, 6, 1, 0, 1, 9, 8, 4, 16, 13, 11, 15, 10, 15, 16, 11);
         assertEquals(expected, actual);
     }
@@ -92,7 +94,8 @@ public class DijkstraTest {
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 6, 0, 0},
                 {0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0}
         });
-        var actual = Dijkstra.run(graph, 14, 0);
+        Dijkstra.run(graph, 14);
+        var actual = Dijkstra.getMinDistances();
         var expected = List.of(5, 7, 9, 11, 9, 10, 11, 1, 5, 9, 21, 3, 8, 12, 0, 5, 11, 16);
         assertEquals(expected, actual);
     }
@@ -121,7 +124,8 @@ public class DijkstraTest {
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4, 0, 0, 0, 0},
                 {0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 8, 0, 0, 5, 0, 6, 0, 0}
         });
-        var actual = Dijkstra.run(graph, 6, 0);
+        Dijkstra.run(graph, 6);
+        var actual = Dijkstra.getMinDistances();
         var expected = List.of(16, 8, 14, 8, 15, 1, 0, 17, 10, 3, 7, 17, 16, 9, 23, 20, 13, 14);
         assertEquals(expected, actual);
     }

@@ -38,8 +38,8 @@ public class ChinesePostmanTest {
                 {0, 0, 70, 0, 0, 0, 0, 70},
                 {0, 0, 120, 0, 0, 60, 70, 0}
         });
-        displayTimeExecuting(() -> ChinesePostmanRunner.run((Graph) graph.clone(), BellmanFord.class, START_VERTEX_IDX));
-        displayTimeExecuting(() -> ChinesePostmanRunner.run((Graph) graph.clone(), Dijkstra.class, START_VERTEX_IDX));
+        displayTimeExecuting(() -> ChinesePostmanRunner.run(BellmanFord.class, (Graph) graph.clone(), START_VERTEX_IDX));
+        displayTimeExecuting(() -> ChinesePostmanRunner.run(Dijkstra.class, (Graph) graph.clone(), START_VERTEX_IDX));
     }
 
     @Test
@@ -60,7 +60,7 @@ public class ChinesePostmanTest {
                 {0, 0, 0, 9, 8, 10, 0, 5},
                 {0, 0, 0, 0, 7, 9, 5, 0}
         });
-        displayTimeExecuting(() -> ChinesePostmanRunner.run((Graph) graph.clone(), BellmanFord.class, START_VERTEX_IDX));
-        displayTimeExecuting(() -> ChinesePostmanRunner.run((Graph) graph.clone(), Dijkstra.class, START_VERTEX_IDX));
+        displayTimeExecuting(() -> ChinesePostmanRunner.run(BellmanFord.class, (Graph) graph.clone(), START_VERTEX_IDX));
+        displayTimeExecuting(() -> ChinesePostmanRunner.run(Dijkstra.class, (Graph) graph.clone(), START_VERTEX_IDX));
     }
 }

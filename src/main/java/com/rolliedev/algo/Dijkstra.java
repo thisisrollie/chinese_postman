@@ -7,21 +7,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 
-import static com.rolliedev.model.Graph.Edge;
-
 public final class Dijkstra extends ShortestPathAlgo {
 
     private Dijkstra() {
     }
 
     /**
+     * This method runs Dijkstra algorithm
+     *
      * @param originalGraph the given graph
      * @param srcVIdx       index of source vertex - starting vertex
-     * @param destVIdx      index of destination vertex - finishing vertex
-     * @return              list of edges, which we need to traverse to reach destination vertex from source vertex
      */
-    public static List<Edge> run(Graph originalGraph, int srcVIdx, int destVIdx) {
-        Graph graph = (Graph) originalGraph.clone(); // we need to make clone, because we want to save our graph in original state
+    public static void run(Graph originalGraph, int srcVIdx) {
+        graph = (Graph) originalGraph.clone(); // we need to make clone, because we want to save our graph in original state
         processGraph(graph, srcVIdx);
 
         PriorityQueue<Vertex> queue = new PriorityQueue<>(List.of(graph.getVertexByIdx(srcVIdx)));
@@ -29,14 +27,14 @@ public final class Dijkstra extends ShortestPathAlgo {
 
         while (!queue.isEmpty()) {
             Vertex vertex = queue.remove();
+            if (visited.contains(vertex)) break;
             var neighbours = graph.getAllNeighbours(vertex);
             neighbours.removeAll(visited);
+            // TODO: 3/20/2023 modify queue in this method
             setMinDistances(graph, vertex, neighbours);
             queue.addAll(neighbours);
             visited.add(vertex);
         }
-        return getPathFromSrcToDestVertex(graph, destVIdx);
-//        return graph.getVertices().stream().map(Vertex::getMinDist).toList();
     }
 
     /**
@@ -54,6 +52,8 @@ public final class Dijkstra extends ShortestPathAlgo {
             if (newMinDist < neighbour.getMinDist()) {
                 neighbour.setMinDist(newMinDist);
                 neighbour.setPrev(srcV);
+//                queue.remove(neighbour);
+//                queue.add(neighbour);
             }
         });
     }

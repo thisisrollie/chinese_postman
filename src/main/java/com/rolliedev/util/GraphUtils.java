@@ -4,6 +4,7 @@ import com.rolliedev.model.Graph;
 import com.rolliedev.model.Graph.Vertex;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static com.rolliedev.model.Graph.*;
@@ -17,7 +18,7 @@ public final class GraphUtils {
     public static List<Vertex> generateListOfVertices(int cntOfNodes) {
         return IntStream.range(0, cntOfNodes)
                 .mapToObj(Vertex::new)
-                .toList();
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public static boolean isEuler(Graph graph) {
@@ -46,10 +47,10 @@ public final class GraphUtils {
                 var v = graph.getAllNeighbours(u).get(0);
                 graph.getEdges().removeIf(edge -> {
                     if (new Edge(u.getIdx(), v.getIdx(), 0).equals(edge)) {
-                        if (edge.getRepeat() == 1) {
+                        if (edge.getFrequency() == 1) {
                             return true;
                         } else {
-                            edge.subRepeat();
+                            edge.reduceFrequency();
                         }
                     }
                     return false;
@@ -60,6 +61,7 @@ public final class GraphUtils {
         return eulerCycle;
     }
 
+    // TODO: 3/19/2023 do we really need this method? If yes then try to improve/rewrite it
     public static void displayPaths(Vertex vertex) {
         System.out.print("Vertex " + vertex.getIdx() + ": ");
         if (vertex.getMinDist() == GraphConst.INFINITY) {
