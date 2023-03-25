@@ -15,7 +15,6 @@ import static java.util.stream.Collectors.toList;
  * This class represents undirected graph
  */
 public class Graph {
-
     private final List<Vertex> vertices;
     private final List<Edge> edges;
 
@@ -81,14 +80,14 @@ public class Graph {
     /**
      * Invoke this method only if it is an undirected graph
      */
-    public void addEdge(int VIdx, int UIdx, int weight) {
-        edges.add(new Edge(VIdx, UIdx, weight));
-        edges.add(new Edge(UIdx, VIdx, weight));
-    }
-
 //    public void addEdge(int VIdx, int UIdx, int weight) {
 //        edges.add(new Edge(VIdx, UIdx, weight));
+//        edges.add(new Edge(UIdx, VIdx, weight));
 //    }
+
+    public void addEdge(int VIdx, int UIdx, int weight) {
+        edges.add(new Edge(VIdx, UIdx, weight));
+    }
 
     public void removeEdge(int VIdx, int UIdx) {
         edges.removeIf(edge -> edge.equals(new Edge(VIdx, UIdx, 0)));

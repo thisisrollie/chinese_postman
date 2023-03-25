@@ -19,14 +19,12 @@ public final class Johnson {
     public static void run(Graph graph) {
         var q = addNewNode(graph);
         var hOfVertices = runBellman(graph, q);
-        // TODO: 3/19/2023 this list will be empty when negative cycle was found?
         if (hOfVertices.isEmpty()) { // negative cycle was found
             System.out.println("Jonson's algorithm is terminated");
             return;
         }
-        removeNewNode(graph, q);
-        reWeightGraph(graph, hOfVertices); // TODO: 3/12/2023 figure out how it works for undirected graph
-        graph.getEdges().forEach(System.out::println);
+        removeNewNode(graph, q, hOfVertices);
+        reWeightGraph(graph, hOfVertices);
         runDijkstra(graph);
     }
 
@@ -53,7 +51,6 @@ public final class Johnson {
     }
 
     private static void reWeightGraph(Graph graph, List<Integer> hOfVertices) {
-        hOfVertices.remove(graph.countOfVertices() - 1);
         graph.getEdges()
                 // w'(u, v) = w(u, v) + h(u) - h(v)
                 .forEach(edge -> edge.setWeight(edge.getWeight() +
@@ -68,7 +65,8 @@ public final class Johnson {
         return newNode;
     }
 
-    private static void removeNewNode(Graph graph, Vertex q) {
+    private static void removeNewNode(Graph graph, Vertex q, List<Integer> hOfVertices) {
+        hOfVertices.remove(graph.countOfVertices() - 1);
         graph.removeVertex(q.getIdx());
         graph.getVertices().forEach(vertex -> graph.removeEdge(q.getIdx(), vertex.getIdx()));
     }
