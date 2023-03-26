@@ -1,15 +1,15 @@
 package com.rolliedev.algo;
 
 import com.rolliedev.model.Graph;
-import com.rolliedev.model.Graph.Vertex;
+import com.rolliedev.model.Vertex;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 
-public final class Dijkstra extends ShortestPathAlgo {
+public final class Dijkstra extends ShortestSinglePathAlgo {
 
-    private Dijkstra() {
+    public Dijkstra() {
     }
 
     /**
@@ -18,7 +18,7 @@ public final class Dijkstra extends ShortestPathAlgo {
      * @param originalGraph the given graph
      * @param srcVIdx       index of source vertex - starting vertex
      */
-    public static void run(Graph originalGraph, int srcVIdx) {
+    public void run(Graph originalGraph, int srcVIdx) {
         graph = (Graph) originalGraph.clone(); // we need to make clone, because we want to save our graph in original state
         processGraph(graph, srcVIdx);
 
@@ -27,10 +27,9 @@ public final class Dijkstra extends ShortestPathAlgo {
 
         while (!queue.isEmpty()) {
             Vertex vertex = queue.remove();
-            if (visited.contains(vertex)) break;
+            if (visited.contains(vertex)) continue;
             var neighbours = graph.getAllNeighbours(vertex);
             neighbours.removeAll(visited);
-            // TODO: 3/20/2023 modify queue in this method
             setMinDistances(graph, vertex, neighbours);
             queue.addAll(neighbours);
             visited.add(vertex);
@@ -46,14 +45,12 @@ public final class Dijkstra extends ShortestPathAlgo {
      * @param srcV       source vertex
      * @param neighbours list of vertices - neighbours of source vertex
      */
-    private static void setMinDistances(Graph graph, Vertex srcV, List<Vertex> neighbours) {
+    private void setMinDistances(Graph graph, Vertex srcV, List<Vertex> neighbours) {
         neighbours.forEach(neighbour -> {
             int newMinDist = srcV.getMinDist() + graph.getEdge(srcV, neighbour).getWeight();
             if (newMinDist < neighbour.getMinDist()) {
                 neighbour.setMinDist(newMinDist);
                 neighbour.setPrev(srcV);
-//                queue.remove(neighbour);
-//                queue.add(neighbour);
             }
         });
     }

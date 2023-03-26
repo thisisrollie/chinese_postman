@@ -1,14 +1,14 @@
 package com.rolliedev.algo;
 
+import com.rolliedev.model.Edge;
 import com.rolliedev.model.Graph;
+import com.rolliedev.model.Vertex;
 
-import static com.rolliedev.model.Graph.Edge;
-import static com.rolliedev.model.Graph.Vertex;
 import static com.rolliedev.util.GraphConst.INFINITY;
 
-public final class BellmanFord extends ShortestPathAlgo {
+public final class BellmanFord extends ShortestSinglePathAlgo {
 
-    private BellmanFord() {
+    public BellmanFord() {
     }
 
     /**
@@ -18,7 +18,7 @@ public final class BellmanFord extends ShortestPathAlgo {
      * @param startVIdx     index of source vertex - starting vertex
      * @return true if a negative cycle was not found, false otherwise
      */
-    public static boolean run(Graph originalGraph, int startVIdx) {
+    public boolean run(Graph originalGraph, int startVIdx) {
         graph = (Graph) originalGraph.clone();
         processGraph(graph, startVIdx);
 
@@ -40,7 +40,7 @@ public final class BellmanFord extends ShortestPathAlgo {
         return true;
     }
 
-    private static void update(Graph graph, Edge edge) {
+    private void update(Graph graph, Edge edge) {
         Vertex srcVertex = graph.getVertexByIdx(edge.getSrcVIdx());
         Vertex destVertex = graph.getVertexByIdx(edge.getDestVIdx());
         int minDist = Math.min(destVertex.getMinDist(), srcVertex.getMinDist() + edge.getWeight());

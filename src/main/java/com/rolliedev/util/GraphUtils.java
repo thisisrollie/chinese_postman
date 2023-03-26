@@ -1,13 +1,16 @@
 package com.rolliedev.util;
 
+import com.rolliedev.model.*;
+import com.rolliedev.model.UndirectedEdge;
 import com.rolliedev.model.Graph;
-import com.rolliedev.model.Graph.Vertex;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Stack;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static com.rolliedev.model.Graph.*;
 import static java.util.function.Predicate.not;
 
 public final class GraphUtils {
@@ -28,9 +31,10 @@ public final class GraphUtils {
     }
 
     /**
-     * Fleur's Algorithm was used in this function
+     * Fleur's Algorithm was used in this function.
+     * This method requires for input an undirected graph
      */
-    public static List<Integer> getEulerCycle(Graph graph, int startVIdx) {
+    public static List<Integer> getEulerCycle(UndirectedGraph graph, int startVIdx) {
         if (!isEuler(graph)) {
             System.out.println("Graph does not have any Euler cycles");
             return Collections.emptyList();
@@ -46,7 +50,7 @@ public final class GraphUtils {
             } else {
                 var v = graph.getAllNeighbours(u).get(0);
                 graph.getEdges().removeIf(edge -> {
-                    if (new Edge(u.getIdx(), v.getIdx(), 0).equals(edge)) {
+                    if (new UndirectedEdge(u.getIdx(), v.getIdx(), 0).equals(edge)) {
                         if (edge.getFrequency() == 1) {
                             return true;
                         } else {

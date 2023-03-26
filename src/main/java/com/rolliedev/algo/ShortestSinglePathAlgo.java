@@ -1,22 +1,22 @@
 package com.rolliedev.algo;
 
+import com.rolliedev.model.Edge;
 import com.rolliedev.model.Graph;
+import com.rolliedev.model.Vertex;
 import com.rolliedev.util.GraphConst;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.rolliedev.model.Graph.*;
+public abstract class ShortestSinglePathAlgo {
 
-public abstract class ShortestPathAlgo {
+    protected Graph graph;
 
-    protected static Graph graph;
-
-    public ShortestPathAlgo() {
+    public ShortestSinglePathAlgo() {
     }
 
-    public static List<Edge> getPathFromSrcToDestVertex(int destVIdx) {
+    public List<Edge> getPathFromSrcToDestVertex(int destVIdx) {
         List<Edge> path = new ArrayList<>();
         Vertex vertex = graph.getVertexByIdx(destVIdx), prevVertex;
         while ((prevVertex = vertex.getPrev()) != null) {
@@ -26,7 +26,7 @@ public abstract class ShortestPathAlgo {
         return path;
     }
 
-    public static List<Integer> getMinDistances() {
+    public List<Integer> getMinDistances() {
         return graph.getVertices().stream()
                 .map(Vertex::getMinDist)
                 .collect(Collectors.toCollection(ArrayList::new));
@@ -38,7 +38,7 @@ public abstract class ShortestPathAlgo {
      * @param graph       given graph
      * @param startVertex index of start vertex
      */
-    protected static void processGraph(Graph graph, int startVertex) {
+    protected void processGraph(Graph graph, int startVertex) {
         graph.getVertexByIdx(startVertex).setMinDist(GraphConst.ZERO);
     }
 }
