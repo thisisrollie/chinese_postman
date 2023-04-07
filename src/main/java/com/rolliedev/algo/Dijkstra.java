@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 
-public final class Dijkstra extends ShortestSinglePathAlgo {
+public final class Dijkstra extends SingleSourceShortestPathAlgo {
 
     public Dijkstra() {
     }
@@ -24,7 +24,6 @@ public final class Dijkstra extends ShortestSinglePathAlgo {
 
         PriorityQueue<Vertex> queue = new PriorityQueue<>(List.of(graph.getVertexByIdx(srcVIdx)));
         List<Vertex> visited = new ArrayList<>();
-
         while (!queue.isEmpty()) {
             Vertex vertex = queue.remove();
             if (visited.contains(vertex)) continue;

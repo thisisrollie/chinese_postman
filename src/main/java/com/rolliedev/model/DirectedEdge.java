@@ -9,6 +9,11 @@ public class DirectedEdge extends Edge {
     }
 
     @Override
+    protected Object clone() {
+        return new DirectedEdge(srcVIdx, destVIdx, weight);
+    }
+
+    @Override
     public String toString() {
         return String.format("(%d)--%d-->(%d)", srcVIdx, weight, destVIdx);
     }

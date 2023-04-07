@@ -1,6 +1,6 @@
 package com.rolliedev;
 
-import com.rolliedev.algo.ShortestSinglePathAlgo;
+import com.rolliedev.algo.SingleSourceShortestPathAlgo;
 import com.rolliedev.model.Edge;
 import com.rolliedev.model.Graph;
 import com.rolliedev.model.UndirectedGraph;
@@ -17,7 +17,7 @@ public final class ChinesePostman<G extends UndirectedGraph> {
     public ChinesePostman() {
     }
 
-    public void run(Class<? extends ShortestSinglePathAlgo> algoClass, G graph, int startVIdx) {
+    public void run(Class<? extends SingleSourceShortestPathAlgo> algoClass, G graph, int startVIdx) {
         var allPairs = getAllPairsOfOddDegreeVertices(graph);
         System.out.println(allPairs);
         var edgesWithMinWeight = getEdgesWithMinWeight(graph, algoClass, allPairs);
@@ -34,19 +34,21 @@ public final class ChinesePostman<G extends UndirectedGraph> {
             for (Edge graphEdge : graph.getEdges()) {
                 if (edge.equals(graphEdge)) {
                     graphEdge.increaseFrequency();
+                    // TODO: 3/26/23 try to optimise
+//                    graph.getEdge(graph.getVertexByIdx(graphEdge.getDestVIdx()), graph.getVertexByIdx(graphEdge.getSrcVIdx())).increaseFrequency();
+//                    break;
                 }
             }
         }
     }
 
-    private List<Edge> getEdgesWithMinWeight(G graph, Class<? extends ShortestSinglePathAlgo> algoClass, List<List<List<Integer>>> allPairs) {
+    private List<Edge> getEdgesWithMinWeight(G graph, Class<? extends SingleSourceShortestPathAlgo> algoClass, List<List<List<Integer>>> allPairs) {
         List<List<Edge>> edgePairs = new ArrayList<>();
         try {
-            ShortestSinglePathAlgo algoInstance = algoClass.getConstructor().newInstance();
+            SingleSourceShortestPathAlgo algoInstance = algoClass.getConstructor().newInstance();
             for (List<List<Integer>> pairs : allPairs) {
                 List<Edge> tmpList = new ArrayList<>();
                 for (List<Integer> pair : pairs) {
-
                     var runMethod = algoClass.getMethod("run", graph.getClass().getSuperclass(), int.class);
                     runMethod.invoke(algoInstance, graph, pair.get(0));
                     var getPathMethod = algoClass.getMethod("getPathFromSrcToDestVertex", int.class);

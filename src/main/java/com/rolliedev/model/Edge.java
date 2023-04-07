@@ -17,6 +17,15 @@ public abstract class Edge {
         this.frequency = 1;
     }
 
+    @Override
+    protected Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void increaseFrequency() {
         frequency = frequency + 1;
     }

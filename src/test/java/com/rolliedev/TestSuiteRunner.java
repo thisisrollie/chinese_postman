@@ -7,8 +7,8 @@ import static org.junit.runners.Suite.*;
 
 @RunWith(Suite.class)
 @SuiteClasses({
+        ChinesePostmanTest.class,
         DijkstraOnUndirectedGraphTest.class,
-        DijkstraOnDirectedGraphTest.class
 })
 public class TestSuiteRunner {
 }

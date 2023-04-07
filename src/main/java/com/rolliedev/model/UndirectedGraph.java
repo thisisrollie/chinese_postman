@@ -4,6 +4,7 @@ import com.rolliedev.exceptions.EdgeDoesNotExistException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UndirectedGraph extends Graph {
 
@@ -32,8 +33,7 @@ public class UndirectedGraph extends Graph {
 
     @Override
     public Object clone() {
-        // for deep clone we need to clone all edges too
-        return new UndirectedGraph(getCloneVertices(), new ArrayList<>(edges));
+        return new UndirectedGraph(getCloneVertices(), getCloneEdges());
     }
 
     @Override
@@ -66,5 +66,11 @@ public class UndirectedGraph extends Graph {
                 .distinct()
                 .mapToInt(Edge::getWeight)
                 .sum();
+    }
+
+    private List<Edge> getCloneEdges() {
+        return edges.stream()
+                .map(edge -> (UndirectedEdge) edge.clone())
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 }

@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class ShortestSinglePathAlgo {
+public abstract class SingleSourceShortestPathAlgo {
 
     protected Graph graph;
 
-    public ShortestSinglePathAlgo() {
+    public SingleSourceShortestPathAlgo() {
     }
 
     public List<Edge> getPathFromSrcToDestVertex(int destVIdx) {

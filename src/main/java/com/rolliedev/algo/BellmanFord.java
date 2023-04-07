@@ -6,7 +6,7 @@ import com.rolliedev.model.Vertex;
 
 import static com.rolliedev.util.GraphConst.INFINITY;
 
-public final class BellmanFord extends ShortestSinglePathAlgo {
+public final class BellmanFord extends SingleSourceShortestPathAlgo {
 
     public BellmanFord() {
     }
