@@ -4,10 +4,7 @@ import com.rolliedev.model.*;
 import com.rolliedev.model.UndirectedEdge;
 import com.rolliedev.model.Graph;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -31,8 +28,8 @@ public final class GraphUtils {
     }
 
     /**
-     * Fleur's Algorithm was used in this function.
-     * This method requires for input an undirected graph
+     * Hierholzer's algorithm was used in this function.
+     * This method requires for input an undirected graph and index of start vertex
      */
     public static List<Integer> getEulerCycle(UndirectedGraph graph, int startVIdx) {
         if (!isEuler(graph)) {
@@ -41,28 +38,34 @@ public final class GraphUtils {
         }
         List<Integer> eulerCycle = new ArrayList<>();
         var stack = new Stack<Vertex>();
-        stack.push(graph.getVertexByIdx(startVIdx));
-        while (!stack.isEmpty()) {
-            var u = stack.peek();
-            if (graph.getAllNeighbours(u).size() == 0) {
-//                System.out.print(stack.pop().getIdx() + " ");
-                eulerCycle.add(stack.pop().getIdx());
+        var currentVertex = graph.getVertexByIdx(startVIdx);
+        do {
+            var neighbours = graph.getAllNeighbours(currentVertex);
+            if (neighbours.isEmpty()) {
+                eulerCycle.add(currentVertex.getIdx());
+                currentVertex = stack.pop();
             } else {
-                var v = graph.getAllNeighbours(u).get(0);
-                graph.getEdges().removeIf(edge -> {
-                    if (new UndirectedEdge(u.getIdx(), v.getIdx(), 0).equals(edge)) {
-                        if (edge.getFrequency() == 1) {
-                            return true;
-                        } else {
-                            edge.reduceFrequency();
-                        }
-                    }
-                    return false;
-                });
-                stack.push(v);
+                stack.push(currentVertex);
+                removeEdgeBetweenVertices(graph, currentVertex, neighbours.get(0));
+                currentVertex = neighbours.get(0);
             }
-        }
+        } while (!stack.isEmpty());
+        eulerCycle.add(currentVertex.getIdx());
+        Collections.reverse(eulerCycle);
         return eulerCycle;
+    }
+
+    private static void removeEdgeBetweenVertices(UndirectedGraph graph, Vertex u, Vertex v) {
+        graph.getEdges().removeIf(edge -> {
+            if (new UndirectedEdge(u.getIdx(), v.getIdx(), 0).equals(edge)) {
+                if (edge.getFrequency() == 1) {
+                    return true;
+                } else {
+                    edge.reduceFrequency();
+                }
+            }
+            return false;
+        });
     }
 
     // TODO: 3/19/2023 do we really need this method? If yes then try to improve/rewrite it
