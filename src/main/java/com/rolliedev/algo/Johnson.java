@@ -6,6 +6,7 @@ import com.rolliedev.model.Vertex;
 import java.util.Collections;
 import java.util.List;
 
+import static com.rolliedev.util.GraphConst.INFINITY;
 import static com.rolliedev.util.GraphConst.ZERO;
 
 /**
@@ -16,31 +17,38 @@ public final class Johnson {
     private Johnson() {
     }
 
-    public static void run(DirectedGraph graph) {
+    public static int[][] run(DirectedGraph graph) {
         var q = addNewNode(graph);
         var hOfVertices = runBellman(graph, q);
+
         if (hOfVertices.isEmpty()) { // negative cycle was found
-            System.out.println("Jonson's algorithm is terminated");
-            return;
+            System.out.println("Johnson's algorithm is terminated");
+            return new int[][]{};
         }
+
         removeNewNode(graph, q, hOfVertices);
         reWeightGraph(graph, hOfVertices);
-        // TODO: 3/26/23 reweight graph to initial state ?
-        runDijkstra(graph);
+        return runDijkstra(graph, hOfVertices);
     }
 
-    private static void runDijkstra(DirectedGraph graph) {
-        Dijkstra dijkstra = new Dijkstra();
+    private static int[][] runDijkstra(DirectedGraph graph, List<Integer> hOfVertices) {
+        int[][] result = new int[graph.countOfVertices()][graph.countOfVertices()];
+        Dijkstra dijkstra = new Dijkstra(graph);
         graph.getVertices()
-                .forEach(vertex -> {
-                    dijkstra.run(graph, vertex.getIdx());
-                    for (Vertex graphVertex : graph.getVertices()) {
-                        if (graphVertex.equals(vertex)) continue;
-                        System.out.println(dijkstra.getPathFromSrcToDestVertex(graphVertex.getIdx()));
+                .forEach(srcVertex -> {
+                    // run dijkstra on each vertex
+                    dijkstra.run(srcVertex.getIdx());
+                    // display paths from source vertex to other
+                    dijkstra.displayPaths();
+                    // return back the initial distances
+                    List<Integer> minDistances = dijkstra.getMinDistances();
+                    for (int i = 0; i < minDistances.size(); i++) {
+                        // D(u, v) = distance'(u, v) + h(v) - h(u)
+                        result[srcVertex.getIdx()][i] = (minDistances.get(i) == INFINITY) ? INFINITY
+                                : minDistances.get(i) + hOfVertices.get(i) - hOfVertices.get(srcVertex.getIdx());
                     }
-//                    System.out.println(dijkstra.getMinDistances());
-                    System.out.println();
                 });
+        return result;
     }
 
     /**
@@ -49,8 +57,8 @@ public final class Johnson {
      * @return list of minimal distances from source vertex to another. If negative cycle is detected, then an empty list is returned
      */
     private static List<Integer> runBellman(DirectedGraph graph, Vertex q) {
-        BellmanFord bellmanFord = new BellmanFord();
-        return bellmanFord.run(graph, q.getIdx()) ? bellmanFord.getMinDistances() : Collections.emptyList();
+        BellmanFord bellmanFord = new BellmanFord(graph);
+        return bellmanFord.run(q.getIdx()) ? bellmanFord.getMinDistances() : Collections.emptyList();
     }
 
     private static void reWeightGraph(DirectedGraph graph, List<Integer> hOfVertices) {

@@ -13,7 +13,7 @@ public final class GeneratorUtils {
     private GeneratorUtils() {
     }
 
-    public static List<List<List<Integer>>> getPairs(List<Integer> vIndexes) {
+    public static List<List<List<Integer>>> getCombinations(List<Integer> vIndexes) {
         var allPairs = generatePairs(vIndexes);
         return Generator.combination(allPairs)
                 .simple(vIndexes.size() / 2)

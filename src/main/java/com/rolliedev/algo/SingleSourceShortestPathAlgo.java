@@ -13,7 +13,18 @@ public abstract class SingleSourceShortestPathAlgo {
 
     protected Graph graph;
 
-    public SingleSourceShortestPathAlgo() {
+    public SingleSourceShortestPathAlgo(Graph graph) {
+        this.graph = graph;
+    }
+
+    public abstract boolean run(int startVIdx);
+
+    public void displayPaths() {
+        graph.getVertices()
+                .forEach(vertex -> {
+                    System.out.println(getPathFromSrcToDestVertex(vertex.getIdx()));
+                    System.out.println();
+                });
     }
 
     public List<Edge> getPathFromSrcToDestVertex(int destVIdx) {
@@ -33,12 +44,17 @@ public abstract class SingleSourceShortestPathAlgo {
     }
 
     /**
-     * This method sets minimal distance to zero for given vertex
+     * This method sets graph to initial state for future running of algorithm.
+     * Sets minimal distances to infinity for all vertices except the starting vertex, which minimal distance will be set to zero
      *
-     * @param graph       given graph
      * @param startVertex index of start vertex
      */
-    protected void processGraph(Graph graph, int startVertex) {
+    protected void processGraph(int startVertex) {
+        graph.getVertices()
+                .forEach(vertex -> {
+                    vertex.setPrev(null);
+                    vertex.setMinDist(GraphConst.INFINITY);
+                });
         graph.getVertexByIdx(startVertex).setMinDist(GraphConst.ZERO);
     }
 }

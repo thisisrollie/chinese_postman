@@ -1,5 +1,7 @@
 package com.rolliedev;
 
+import com.rolliedev.algo.BellmanFord;
+import com.rolliedev.algo.Dijkstra;
 import com.rolliedev.algo.SingleSourceShortestPathAlgo;
 import com.rolliedev.model.Edge;
 import com.rolliedev.model.Graph;
@@ -18,57 +20,72 @@ public final class ChinesePostman<G extends UndirectedGraph> {
     }
 
     public void run(Class<? extends SingleSourceShortestPathAlgo> algoClass, G graph, int startVIdx) {
-        var allPairs = getAllPairsOfOddDegreeVertices(graph);
-        System.out.println(allPairs);
-        var edgesWithMinWeight = getEdgesWithMinWeight(graph, algoClass, allPairs);
+        var allCombinationsOfPairingOddDegreeVertices = getAllCombinationsOfPairingOddDegreeVertices(graph);
+        System.out.println(allCombinationsOfPairingOddDegreeVertices);
+
+        var edgesWithMinWeight = getEdgesWithMinWeight(graph, algoClass, allCombinationsOfPairingOddDegreeVertices);
         System.out.println("Sum of all edges: " + graph.getSumOfAllEdges());
         int lengthOfRoute = graph.getSumOfAllEdges() + edgesWithMinWeight.stream().mapToInt(Edge::getWeight).sum();
         System.out.println(edgesWithMinWeight);
-        setupEdges(graph, edgesWithMinWeight);
-        GraphUtils.getEulerCycle(graph, startVIdx).forEach(value -> System.out.print(value + " "));
-        System.out.println("\nThe length of Chinese postman route is " + lengthOfRoute);
+        increaseFrequencyOfGraphEdges(graph, edgesWithMinWeight);
+
+        GraphUtils.getEulerCircuit(graph, startVIdx).forEach(value -> System.out.print(value + " "));
+        System.out.printf("\nThe length of Chinese postman route is %d.\n", lengthOfRoute);
     }
 
-    private void setupEdges(G graph, List<Edge> edges) {
+    private void increaseFrequencyOfGraphEdges(G graph, List<Edge> edges) {
+        // TODO: 5/13/23 try to debug this moment
+//        for (Edge edge : edges) {
+//            Edge originalEdge = getEdgeFromGraph(graph, edge);
+//            originalEdge.increaseFrequency();
+//        }
         for (Edge edge : edges) {
             for (Edge graphEdge : graph.getEdges()) {
                 if (edge.equals(graphEdge)) {
                     graphEdge.increaseFrequency();
-                    // TODO: 3/26/23 try to optimise
-//                    graph.getEdge(graph.getVertexByIdx(graphEdge.getDestVIdx()), graph.getVertexByIdx(graphEdge.getSrcVIdx())).increaseFrequency();
-//                    break;
                 }
             }
         }
     }
 
-    private List<Edge> getEdgesWithMinWeight(G graph, Class<? extends SingleSourceShortestPathAlgo> algoClass, List<List<List<Integer>>> allPairs) {
-        List<List<Edge>> edgePairs = new ArrayList<>();
-        try {
-            SingleSourceShortestPathAlgo algoInstance = algoClass.getConstructor().newInstance();
-            for (List<List<Integer>> pairs : allPairs) {
-                List<Edge> tmpList = new ArrayList<>();
-                for (List<Integer> pair : pairs) {
-                    var runMethod = algoClass.getMethod("run", graph.getClass().getSuperclass(), int.class);
-                    runMethod.invoke(algoInstance, graph, pair.get(0));
-                    var getPathMethod = algoClass.getMethod("getPathFromSrcToDestVertex", int.class);
-                    var edgesBetweenPair = (List<Edge>) getPathMethod.invoke(algoInstance, pair.get(1));
-                    tmpList.addAll(edgesBetweenPair);
-                }
-                edgePairs.add(tmpList);
-            }
-        } catch (Exception exception) {
-            throw new RuntimeException(exception);
+    private Edge getEdgeFromGraph(G graph, Edge edge) {
+        return graph.getEdges().stream()
+                .filter(graphEdge -> graphEdge.getSrcVIdx() == edge.getSrcVIdx() && graphEdge.getDestVIdx() == edge.getDestVIdx())
+                .findFirst()
+                .orElseThrow();
+    }
+
+    private List<Edge> getEdgesWithMinWeight(G graph, Class<? extends SingleSourceShortestPathAlgo> algoClass, List<List<List<Integer>>> allCombinations) {
+        List<List<Edge>> edgesFromCombination = new ArrayList<>();
+
+        SingleSourceShortestPathAlgo pathAlgo;
+        if (algoClass.equals(BellmanFord.class)) {
+            pathAlgo = new BellmanFord(graph);
+        } else if (algoClass.equals(Dijkstra.class)) {
+            pathAlgo = new Dijkstra(graph);
+        } else {
+            throw new RuntimeException(String.format("An incorrect algorithm was passed: %s. There are only two options: %s and %s.",
+                    algoClass.getName(), BellmanFord.class.getName(), Dijkstra.class.getName()));
         }
-        return edgePairs.stream()
+
+        for (List<List<Integer>> pairsFromCombination : allCombinations) {
+            List<Edge> edgeHolderList = new ArrayList<>();
+            for (List<Integer> pair : pairsFromCombination) {
+                pathAlgo.run(pair.get(0));
+                List<Edge> edgesBetweenPair = pathAlgo.getPathFromSrcToDestVertex(pair.get(1));
+                edgeHolderList.addAll(edgesBetweenPair);
+            }
+            edgesFromCombination.add(edgeHolderList);
+        }
+        return edgesFromCombination.stream()
                 .min(Comparator.comparing(edges -> edges.stream().mapToInt(Edge::getWeight).sum()))
                 .orElseThrow();
     }
 
-    private List<List<List<Integer>>> getAllPairsOfOddDegreeVertices(Graph graph) {
+    private List<List<List<Integer>>> getAllCombinationsOfPairingOddDegreeVertices(Graph graph) {
         var oddVIndexes = graph.getOddDegreeVertices().stream()
                 .map(Vertex::getIdx)
                 .toList();
-        return GeneratorUtils.getPairs(oddVIndexes);
+        return GeneratorUtils.getCombinations(oddVIndexes);
     }
 }

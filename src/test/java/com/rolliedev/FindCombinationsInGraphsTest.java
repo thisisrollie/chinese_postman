@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class FindPairsTest {
+public class FindCombinationsInGraphsTest {
 
     @Test
     public void shouldGive1() {
@@ -21,7 +21,7 @@ public class FindPairsTest {
                 {1, 0, 7, 0, 3},
                 {2, 0, 0, 3, 0}
         });
-        var actual = getCountOfPairs(graph);
+        var actual = getCountOfCombinations(graph);
         assertEquals(1, actual);
     }
 
@@ -37,16 +37,16 @@ public class FindPairsTest {
                 {8, 4, 10, 0, 0},
                 {17, 0, 6, 0, 0}
         });
-        var actual = getCountOfPairs(graph);
+        var actual = getCountOfCombinations(graph);
         assertEquals(3, actual);
     }
 
-    private int getCountOfPairs(UndirectedGraph graph) {
+    private int getCountOfCombinations(UndirectedGraph graph) {
         var oddIndexes = graph.getOddDegreeVertices().stream()
                 .map(Vertex::getIdx)
                 .toList();
 
-        var pairs = GeneratorUtils.getPairs(oddIndexes);
-        return pairs.size();
+        var combinations = GeneratorUtils.getCombinations(oddIndexes);
+        return combinations.size();
     }
 }

@@ -5,7 +5,10 @@ import java.util.Objects;
 public class UndirectedEdge extends Edge {
 
     protected static int increment = 1;
-    private final int id; // TODO: 3/26/23 do not forget about id
+    /**
+     *
+     */
+    private final int id;
 
     public UndirectedEdge(int srcVIdx, int destVIdx, int weight) {
         this(increment++, srcVIdx, destVIdx, weight);

@@ -9,20 +9,20 @@ import java.util.PriorityQueue;
 
 public final class Dijkstra extends SingleSourceShortestPathAlgo {
 
-    public Dijkstra() {
+    public Dijkstra(Graph graph) {
+        super(graph);
     }
 
     /**
      * This method runs Dijkstra algorithm
      *
-     * @param originalGraph the given graph
-     * @param srcVIdx       index of source vertex - starting vertex
+     * @param startVIdx index of starting vertex - source vertex
      */
-    public void run(Graph originalGraph, int srcVIdx) {
-        graph = (Graph) originalGraph.clone(); // we need to make clone, because we want to save our graph in original state
-        processGraph(graph, srcVIdx);
+    public boolean run(int startVIdx) {
+//        graph = (Graph) originalGraph.clone(); // we need to make clone, because we want to save our graph in original state
+        processGraph(startVIdx);
 
-        PriorityQueue<Vertex> queue = new PriorityQueue<>(List.of(graph.getVertexByIdx(srcVIdx)));
+        PriorityQueue<Vertex> queue = new PriorityQueue<>(List.of(graph.getVertexByIdx(startVIdx)));
         List<Vertex> visited = new ArrayList<>();
         while (!queue.isEmpty()) {
             Vertex vertex = queue.remove();
@@ -33,6 +33,7 @@ public final class Dijkstra extends SingleSourceShortestPathAlgo {
             queue.addAll(neighbours);
             visited.add(vertex);
         }
+        return true;
     }
 
     /**

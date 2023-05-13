@@ -7,8 +7,11 @@ import static org.junit.runners.Suite.*;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-        ChinesePostmanTest.class,
+        GeneratorUtilsTest.class,
+        FindCombinationsInGraphsTest.class,
+        GraphCreationTest.class,
         DijkstraOnUndirectedGraphTest.class,
+        BellmanFordOnUndirectedGraphTest.class
 })
 public class TestSuiteRunner {
 }

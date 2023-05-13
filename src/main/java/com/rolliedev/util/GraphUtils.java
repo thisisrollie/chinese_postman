@@ -1,8 +1,7 @@
 package com.rolliedev.util;
 
+import com.rolliedev.exceptions.GraphCreationException;
 import com.rolliedev.model.*;
-import com.rolliedev.model.UndirectedEdge;
-import com.rolliedev.model.Graph;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,6 +20,20 @@ public final class GraphUtils {
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
+    /**
+     * This method throws exception if the matrix is empty or if it doesn't have square shape (matrix of size V x V)
+     *
+     * @param matrix given adjacency matrix
+     */
+    public static void checkAdjMatrix(int[][] matrix) {
+        int V = matrix.length;
+        long matrixSize = Arrays.stream(matrix).flatMapToInt(Arrays::stream).count();
+        if (V == 0 || matrixSize != (long) V * V) {
+            throw new GraphCreationException("Failed creating a graph. The adjacency matrix must be a 2D array of size V x V, where V is number of vertices in a graph.\n" +
+                    "Current matrix size: " + matrixSize + ".");
+        }
+    }
+
     public static boolean isEuler(Graph graph) {
         return graph.getVertices().stream()
                 .map(vertex -> graph.getAllNeighbours(vertex).size())
@@ -28,31 +41,30 @@ public final class GraphUtils {
     }
 
     /**
-     * Hierholzer's algorithm was used in this function.
+     * Hierholzer's algorithm was used in this function for finding the Euler circuit.
      * This method requires for input an undirected graph and index of start vertex
      */
-    public static List<Integer> getEulerCycle(UndirectedGraph graph, int startVIdx) {
+    public static List<Integer> getEulerCircuit(UndirectedGraph graph, int startVIdx) {
         if (!isEuler(graph)) {
             System.out.println("Graph does not have any Euler cycles");
             return Collections.emptyList();
         }
-        List<Integer> eulerCycle = new ArrayList<>();
+        List<Integer> circuit = new ArrayList<>();
         var stack = new Stack<Vertex>();
-        var currentVertex = graph.getVertexByIdx(startVIdx);
-        do {
+        stack.push(graph.getVertexByIdx(startVIdx));
+        while (!stack.isEmpty()) {
+            var currentVertex = stack.peek();
             var neighbours = graph.getAllNeighbours(currentVertex);
             if (neighbours.isEmpty()) {
-                eulerCycle.add(currentVertex.getIdx());
-                currentVertex = stack.pop();
+                stack.pop();
+                circuit.add(currentVertex.getIdx());
             } else {
-                stack.push(currentVertex);
                 removeEdgeBetweenVertices(graph, currentVertex, neighbours.get(0));
-                currentVertex = neighbours.get(0);
+                stack.push(neighbours.get(0));
             }
-        } while (!stack.isEmpty());
-        eulerCycle.add(currentVertex.getIdx());
-        Collections.reverse(eulerCycle);
-        return eulerCycle;
+        }
+        Collections.reverse(circuit);
+        return circuit;
     }
 
     private static void removeEdgeBetweenVertices(UndirectedGraph graph, Vertex u, Vertex v) {
@@ -68,17 +80,8 @@ public final class GraphUtils {
         });
     }
 
-    // TODO: 3/19/2023 do we really need this method? If yes then try to improve/rewrite it
-    public static void displayPaths(Vertex vertex) {
-        System.out.print("Vertex " + vertex.getIdx() + ": ");
-        if (vertex.getMinDist() == GraphConst.INFINITY) {
-            System.out.println("No path");
-            return;
-        }
-        while (vertex != null) {
-            System.out.print(vertex.getIdx() + " ");
-            vertex = vertex.getPrev();
-        }
-        System.out.println();
+    public static boolean isGraphPositiveWeighted(Graph graph) {
+        return graph.getEdges().stream()
+                .noneMatch(Edge::isNegativeWeighted);
     }
 }

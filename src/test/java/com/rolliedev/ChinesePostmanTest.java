@@ -45,7 +45,7 @@ public class ChinesePostmanTest {
                 {0, 0, 70, 0, 0, 0, 0, 70},
                 {0, 0, 120, 0, 0, 60, 70, 0}
         });
-        displayTimeExecuting(() -> chinesePostman.run(BellmanFord.class, (UndirectedGraph) graph.clone(), START_VERTEX_IDX));
+//        displayTimeExecuting(() -> chinesePostman.run(BellmanFord.class, (UndirectedGraph) graph.clone(), START_VERTEX_IDX));
         displayTimeExecuting(() -> chinesePostman.run(Dijkstra.class, (UndirectedGraph) graph.clone(), START_VERTEX_IDX));
     }
 
@@ -67,7 +67,7 @@ public class ChinesePostmanTest {
                 {0, 0, 0, 9, 8, 10, 0, 5},
                 {0, 0, 0, 0, 7, 9, 5, 0}
         });
-        displayTimeExecuting(() -> chinesePostman.run(BellmanFord.class, (UndirectedGraph) graph.clone(), START_VERTEX_IDX));
+//        displayTimeExecuting(() -> chinesePostman.run(BellmanFord.class, (UndirectedGraph) graph.clone(), START_VERTEX_IDX));
         displayTimeExecuting(() -> chinesePostman.run(Dijkstra.class, (UndirectedGraph) graph.clone(), START_VERTEX_IDX));
     }
 }

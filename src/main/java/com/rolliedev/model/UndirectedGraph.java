@@ -1,11 +1,17 @@
 package com.rolliedev.model;
 
 import com.rolliedev.exceptions.EdgeDoesNotExistException;
+import com.rolliedev.exceptions.GraphCreationException;
+import com.rolliedev.util.GraphUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * This class represents <b>undirected graph</b>.
+ */
 public class UndirectedGraph extends Graph {
 
     private UndirectedGraph(int vertices, List<Edge> edges) {
@@ -17,6 +23,8 @@ public class UndirectedGraph extends Graph {
     }
 
     public static UndirectedGraph getGraphFromAdjMatrix(int[][] matrix) {
+        GraphUtils.checkAdjMatrix(matrix);
+
         int V = matrix.length;
         List<Edge> edges = new ArrayList<>();
         for (int i = 0; i < V - 1; i++) {
@@ -38,7 +46,7 @@ public class UndirectedGraph extends Graph {
 
     @Override
     public void addEdge(int VIdx, int UIdx, int weight) {
-        edges.add(new UndirectedEdge(VIdx, UIdx, weight)); // 1
+        edges.add(new UndirectedEdge(VIdx, UIdx, weight));
         UndirectedEdge.increment--;
         edges.add(new UndirectedEdge(UIdx, VIdx, weight));
     }
@@ -50,9 +58,8 @@ public class UndirectedGraph extends Graph {
 
     @Override
     public Edge getEdge(Vertex srcV, Vertex destV) {
-        UndirectedEdge anotherEdge = new UndirectedEdge(srcV.getIdx(), destV.getIdx(), 0);
         for (Edge edge : edges) {
-            if (edge.equals(anotherEdge)) {
+            if (edge.srcVIdx == srcV.getIdx() && edge.destVIdx == destV.getIdx()) {
                 return edge;
             }
         }

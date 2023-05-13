@@ -1,11 +1,15 @@
 package com.rolliedev.model;
 
 import com.rolliedev.exceptions.EdgeDoesNotExistException;
+import com.rolliedev.util.GraphUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * This class represents <b>directed graph</b>.
+ */
 public class DirectedGraph extends Graph {
 
     private DirectedGraph(int vertices, List<Edge> edges) {
@@ -17,6 +21,8 @@ public class DirectedGraph extends Graph {
     }
 
     public static DirectedGraph getGraphFromAdjMatrix(int[][] matrix) {
+        GraphUtils.checkAdjMatrix(matrix);
+
         int V = matrix.length;
         List<Edge> edges = new ArrayList<>();
         for (int i = 0; i < V; i++) {

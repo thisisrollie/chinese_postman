@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.rolliedev.GeneratorUtilsTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.864 s - in com.rolliedev.GeneratorUtilsTest

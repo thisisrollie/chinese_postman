@@ -8,19 +8,19 @@ import static com.rolliedev.util.GraphConst.INFINITY;
 
 public final class BellmanFord extends SingleSourceShortestPathAlgo {
 
-    public BellmanFord() {
+    public BellmanFord(Graph graph) {
+        super(graph);
     }
 
     /**
      * This method runs Bellman Ford algorithm
      *
-     * @param originalGraph the given graph
-     * @param startVIdx     index of source vertex - starting vertex
+     * @param startVIdx index of source vertex - starting vertex
      * @return true if a negative cycle was not found, false otherwise
      */
-    public boolean run(Graph originalGraph, int startVIdx) {
-        graph = (Graph) originalGraph.clone();
-        processGraph(graph, startVIdx);
+    public boolean run(int startVIdx) {
+//        graph = (Graph) originalGraph.clone();
+        processGraph(startVIdx);
 
         for (int i = 0; i < graph.countOfVertices() - 1; i++) {
             for (Edge edge : graph.getEdges()) {

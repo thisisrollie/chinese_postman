@@ -1,13 +1,24 @@
 package com.rolliedev.model;
 
 public abstract class Edge {
-    // it's a source vertex
+    // TODO: 4/8/23 of edge or of an edge???
+    /**
+     * It's a source vertex of an edge.
+     */
     protected int srcVIdx;
-    // it's a destination vertex
+    /**
+     * It's a destination vertex of edge.
+     */
     protected int destVIdx;
-    // it denotes the weight of edge
+    /**
+     * It denotes the weight of edge.
+     */
     protected int weight;
-    // by default, it sets to 1
+    /**
+     * This field we need for Chinese Postman Problem, where we can traverse the edge more than once.
+     * By default, it sets to 1.
+     * <p>For example, <b>frequency</b> = 1 means that we can traverse the edge only once.</p>
+     */
     protected int frequency;
 
     protected Edge(int srcVIdx, int destVIdx, int weight) {
@@ -24,6 +35,10 @@ public abstract class Edge {
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public boolean isNegativeWeighted() {
+        return weight < 0;
     }
 
     public void increaseFrequency() {
