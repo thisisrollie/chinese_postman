@@ -46,7 +46,7 @@ public abstract class Graph {
                 .collect(Collectors.toCollection(ArrayList::new)); // i want to return a mutable list
     }
 
-    public List<Vertex> getAllNeighbours(Vertex vertex) {
+    public List<Vertex> getAllNeighboursOfVertex(Vertex vertex) {
         return edges.stream()
                 .filter(edge -> edge.getSrcVIdx() == vertex.getIdx())
                 .flatMap(edge -> {
@@ -61,7 +61,7 @@ public abstract class Graph {
 
     public List<Vertex> getOddDegreeVertices() {
         return vertices.stream()
-                .filter(not(vertex -> getAllNeighbours(vertex).size() % 2 == 0))
+                .filter(not(vertex -> getAllNeighboursOfVertex(vertex).size() % 2 == 0))
                 .collect(toList());
     }
 

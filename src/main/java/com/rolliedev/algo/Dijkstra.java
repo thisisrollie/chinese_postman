@@ -27,7 +27,7 @@ public final class Dijkstra extends SingleSourceShortestPathAlgo {
         while (!queue.isEmpty()) {
             Vertex vertex = queue.remove();
             if (visited.contains(vertex)) continue;
-            var neighbours = graph.getAllNeighbours(vertex);
+            var neighbours = graph.getAllNeighboursOfVertex(vertex);
             neighbours.removeAll(visited);
             setMinDistances(graph, vertex, neighbours);
             queue.addAll(neighbours);

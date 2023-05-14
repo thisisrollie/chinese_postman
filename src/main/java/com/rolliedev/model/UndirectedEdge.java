@@ -5,9 +5,6 @@ import java.util.Objects;
 public class UndirectedEdge extends Edge {
 
     protected static int increment = 1;
-    /**
-     *
-     */
     private final int id;
 
     public UndirectedEdge(int srcVIdx, int destVIdx, int weight) {

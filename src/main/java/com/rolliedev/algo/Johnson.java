@@ -22,7 +22,7 @@ public final class Johnson {
         var hOfVertices = runBellman(graph, q);
 
         if (hOfVertices.isEmpty()) { // negative cycle was found
-            System.out.println("Johnson's algorithm is terminated");
+            System.out.println("Johnson's algorithm is terminated.");
             return new int[][]{};
         }
 

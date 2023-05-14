@@ -34,9 +34,17 @@ public final class GraphUtils {
         }
     }
 
+    public static int getLengthOfPostmanRoute(UndirectedGraph graph, List<Integer> postmanRoute) {
+        int routeLength = 0;
+        for (int i = 0; i < postmanRoute.size() - 1; i++) {
+            routeLength += graph.getEdge(graph.getVertexByIdx(postmanRoute.get(i)), graph.getVertexByIdx(postmanRoute.get(i + 1))).getWeight();
+        }
+        return routeLength;
+    }
+
     public static boolean isEuler(Graph graph) {
         return graph.getVertices().stream()
-                .map(vertex -> graph.getAllNeighbours(vertex).size())
+                .map(vertex -> graph.getAllNeighboursOfVertex(vertex).size())
                 .noneMatch(not(count -> count % 2 == 0));
     }
 
@@ -54,7 +62,7 @@ public final class GraphUtils {
         stack.push(graph.getVertexByIdx(startVIdx));
         while (!stack.isEmpty()) {
             var currentVertex = stack.peek();
-            var neighbours = graph.getAllNeighbours(currentVertex);
+            var neighbours = graph.getAllNeighboursOfVertex(currentVertex);
             if (neighbours.isEmpty()) {
                 stack.pop();
                 circuit.add(currentVertex.getIdx());

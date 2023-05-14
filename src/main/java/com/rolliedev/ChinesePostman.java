@@ -19,26 +19,21 @@ public final class ChinesePostman<G extends UndirectedGraph> {
     public ChinesePostman() {
     }
 
-    public void run(Class<? extends SingleSourceShortestPathAlgo> algoClass, G graph, int startVIdx) {
+    public List<Integer> run(Class<? extends SingleSourceShortestPathAlgo> algoClass, G graph, int startVIdx) {
         var allCombinationsOfPairingOddDegreeVertices = getAllCombinationsOfPairingOddDegreeVertices(graph);
-        System.out.println(allCombinationsOfPairingOddDegreeVertices);
 
         var edgesWithMinWeight = getEdgesWithMinWeight(graph, algoClass, allCombinationsOfPairingOddDegreeVertices);
-        System.out.println("Sum of all edges: " + graph.getSumOfAllEdges());
         int lengthOfRoute = graph.getSumOfAllEdges() + edgesWithMinWeight.stream().mapToInt(Edge::getWeight).sum();
-        System.out.println(edgesWithMinWeight);
         increaseFrequencyOfGraphEdges(graph, edgesWithMinWeight);
 
-        GraphUtils.getEulerCircuit(graph, startVIdx).forEach(value -> System.out.print(value + " "));
-        System.out.printf("\nThe length of Chinese postman route is %d.\n", lengthOfRoute);
+        System.out.println("Chinese postman route: ");
+        List<Integer> eulerCircuit = GraphUtils.getEulerCircuit(graph, startVIdx);
+        eulerCircuit.forEach(vIdx -> System.out.print(vIdx + " "));
+        System.out.printf("\nThe length of Chinese postman route is %d.\n\n", lengthOfRoute);
+        return eulerCircuit;
     }
 
     private void increaseFrequencyOfGraphEdges(G graph, List<Edge> edges) {
-        // TODO: 5/13/23 try to debug this moment
-//        for (Edge edge : edges) {
-//            Edge originalEdge = getEdgeFromGraph(graph, edge);
-//            originalEdge.increaseFrequency();
-//        }
         for (Edge edge : edges) {
             for (Edge graphEdge : graph.getEdges()) {
                 if (edge.equals(graphEdge)) {
@@ -46,13 +41,6 @@ public final class ChinesePostman<G extends UndirectedGraph> {
                 }
             }
         }
-    }
-
-    private Edge getEdgeFromGraph(G graph, Edge edge) {
-        return graph.getEdges().stream()
-                .filter(graphEdge -> graphEdge.getSrcVIdx() == edge.getSrcVIdx() && graphEdge.getDestVIdx() == edge.getDestVIdx())
-                .findFirst()
-                .orElseThrow();
     }
 
     private List<Edge> getEdgesWithMinWeight(G graph, Class<? extends SingleSourceShortestPathAlgo> algoClass, List<List<List<Integer>>> allCombinations) {

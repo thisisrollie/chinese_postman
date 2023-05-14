@@ -1,11 +1,12 @@
 package com.rolliedev;
 
-import com.google.common.base.Stopwatch;
-import com.rolliedev.algo.BellmanFord;
 import com.rolliedev.algo.Dijkstra;
 import com.rolliedev.model.UndirectedGraph;
+import com.rolliedev.util.GraphUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class ChinesePostmanTest {
 
@@ -15,16 +16,6 @@ public class ChinesePostmanTest {
     @BeforeClass
     public static void beforeClass() throws Exception {
         chinesePostman = new ChinesePostman<>();
-    }
-
-    private void displayTimeExecuting(Runnable runnable) {
-        Stopwatch stopwatch = Stopwatch.createStarted();
-        try {
-            runnable.run();
-        } finally {
-            var duration = stopwatch.elapsed();
-            System.out.println("Time: " + duration);
-        }
     }
 
     @Test
@@ -45,8 +36,11 @@ public class ChinesePostmanTest {
                 {0, 0, 70, 0, 0, 0, 0, 70},
                 {0, 0, 120, 0, 0, 60, 70, 0}
         });
-//        displayTimeExecuting(() -> chinesePostman.run(BellmanFord.class, (UndirectedGraph) graph.clone(), START_VERTEX_IDX));
-        displayTimeExecuting(() -> chinesePostman.run(Dijkstra.class, (UndirectedGraph) graph.clone(), START_VERTEX_IDX));
+        var expectedLengthOfRoute = 1000;
+        var postmanRoute = chinesePostman.run(Dijkstra.class, (UndirectedGraph) graph.clone(), START_VERTEX_IDX);
+        var actualLengthOfRoute = GraphUtils.getLengthOfPostmanRoute(graph, postmanRoute);
+        assertEquals(postmanRoute.get(0), postmanRoute.get(postmanRoute.size() - 1));
+        assertEquals(expectedLengthOfRoute, actualLengthOfRoute);
     }
 
     @Test
@@ -67,7 +61,10 @@ public class ChinesePostmanTest {
                 {0, 0, 0, 9, 8, 10, 0, 5},
                 {0, 0, 0, 0, 7, 9, 5, 0}
         });
-//        displayTimeExecuting(() -> chinesePostman.run(BellmanFord.class, (UndirectedGraph) graph.clone(), START_VERTEX_IDX));
-        displayTimeExecuting(() -> chinesePostman.run(Dijkstra.class, (UndirectedGraph) graph.clone(), START_VERTEX_IDX));
+        var expectedLengthOfRoute = 136;
+        var postmanRoute = chinesePostman.run(Dijkstra.class, (UndirectedGraph) graph.clone(), START_VERTEX_IDX);
+        var actualLengthOfRoute = GraphUtils.getLengthOfPostmanRoute(graph, postmanRoute);
+        assertEquals(postmanRoute.get(0), postmanRoute.get(postmanRoute.size() - 1));
+        assertEquals(expectedLengthOfRoute, actualLengthOfRoute);
     }
 }

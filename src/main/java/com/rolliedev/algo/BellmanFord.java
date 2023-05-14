@@ -33,7 +33,7 @@ public final class BellmanFord extends SingleSourceShortestPathAlgo {
         for (Edge edge : graph.getEdges()) {
             if (graph.getVertexByIdx(edge.getSrcVIdx()).getMinDist() != INFINITY
                     && graph.getVertexByIdx(edge.getDestVIdx()).getMinDist() > graph.getVertexByIdx(edge.getSrcVIdx()).getMinDist() + edge.getWeight()) {
-                System.out.println("Negative cycle exists in the graph, no solution found");
+                System.out.println("Negative cycle exists in the graph, no solution found.");
                 return false;
             }
         }

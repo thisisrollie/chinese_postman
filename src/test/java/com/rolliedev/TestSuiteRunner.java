@@ -11,7 +11,10 @@ import static org.junit.runners.Suite.*;
         FindCombinationsInGraphsTest.class,
         GraphCreationTest.class,
         DijkstraOnUndirectedGraphTest.class,
-        BellmanFordOnUndirectedGraphTest.class
+        DijkstraOnDirectedGraphTest.class,
+        BellmanFordOnUndirectedGraphTest.class,
+        BellmanFordOnDirectedGraphTest.class,
+        JohnsonTest.class
 })
 public class TestSuiteRunner {
 }
