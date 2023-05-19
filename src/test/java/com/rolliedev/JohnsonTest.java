@@ -74,8 +74,8 @@ public class JohnsonTest {
         int[][] minDistances = Johnson.run(GRAPH_1);
         int[] expected8Line = new int[]{INFINITY, INFINITY, INFINITY, INFINITY, INFINITY, INFINITY, INFINITY, INFINITY, 0, INFINITY, INFINITY, INFINITY, INFINITY, INFINITY, INFINITY, INFINITY, INFINITY, INFINITY};
         int[] expected9Line = new int[]{INFINITY, INFINITY, INFINITY, INFINITY, INFINITY, 16, 8, INFINITY, 9, 0, INFINITY, INFINITY, 5, 8, INFINITY, 12, 10, INFINITY};
-        assertArrayEquals(expected8Line, minDistances[8]);
-        assertArrayEquals(expected9Line, minDistances[9]);
+        assertArrayEquals("The elements are not equal in row 8", expected8Line, minDistances[8]);
+        assertArrayEquals("The elements are not equal in row 9", expected9Line, minDistances[9]);
     }
 
     @Test
@@ -92,7 +92,7 @@ public class JohnsonTest {
         };
         int[][] actualMinDist = Johnson.run(GRAPH_2);
         for (int i = 0; i < expected.length; i++) {
-            assertArrayEquals(expected[i], actualMinDist[i]);
+            assertArrayEquals(String.format("The elements are not equal in row %d", i), expected[i], actualMinDist[i]);
         }
     }
 

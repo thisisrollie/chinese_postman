@@ -5,12 +5,16 @@ import java.util.Objects;
 public class DirectedEdge extends Edge {
 
     public DirectedEdge(int srcVIdx, int destVIdx, int weight) {
-        super(srcVIdx, destVIdx, weight);
+        this(srcVIdx, destVIdx, weight, 1);
+    }
+
+    private DirectedEdge(int srcVIdx, int destVIdx, int weight, int frequency) {
+        super(srcVIdx, destVIdx, weight, frequency);
     }
 
     @Override
     protected Object clone() {
-        return new DirectedEdge(srcVIdx, destVIdx, weight);
+        return new DirectedEdge(srcVIdx, destVIdx, weight, frequency);
     }
 
     @Override

@@ -8,17 +8,17 @@ public class UndirectedEdge extends Edge {
     private final int id;
 
     public UndirectedEdge(int srcVIdx, int destVIdx, int weight) {
-        this(increment++, srcVIdx, destVIdx, weight);
+        this(increment++, srcVIdx, destVIdx, weight, 1);
     }
 
-    private UndirectedEdge(int id, int srcVIdx, int destVIdx, int weight) {
-        super(srcVIdx, destVIdx, weight);
+    private UndirectedEdge(int id, int srcVIdx, int destVIdx, int weight, int frequency) {
+        super(srcVIdx, destVIdx, weight, frequency);
         this.id = id;
     }
 
     @Override
     protected Object clone() {
-        return new UndirectedEdge(id, srcVIdx, destVIdx, weight);
+        return new UndirectedEdge(id, srcVIdx, destVIdx, weight, frequency);
     }
 
     @Override

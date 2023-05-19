@@ -69,7 +69,7 @@ public class UndirectedGraph extends Graph {
     public int getSumOfAllEdges() {
         return edges.stream()
                 .distinct()
-                .mapToInt(Edge::getWeight)
+                .mapToInt(edge -> edge.getWeight() * edge.getFrequency())
                 .sum();
     }
 

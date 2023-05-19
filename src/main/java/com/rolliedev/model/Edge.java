@@ -21,11 +21,11 @@ public abstract class Edge {
      */
     protected int frequency;
 
-    protected Edge(int srcVIdx, int destVIdx, int weight) {
+    protected Edge(int srcVIdx, int destVIdx, int weight, int frequency) {
         this.srcVIdx = srcVIdx;
         this.destVIdx = destVIdx;
         this.weight = weight;
-        this.frequency = 1;
+        this.frequency = frequency;
     }
 
     @Override

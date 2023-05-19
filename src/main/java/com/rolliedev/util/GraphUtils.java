@@ -53,10 +53,10 @@ public final class GraphUtils {
      * This method requires for input an undirected graph and index of start vertex
      */
     public static List<Integer> getEulerCircuit(UndirectedGraph graph, int startVIdx) {
-        if (!isEuler(graph)) {
-            System.out.println("Graph does not have any Euler cycles");
-            return Collections.emptyList();
-        }
+        //if (!isEuler(graph)) {
+        //    System.out.println("Graph does not have any Euler cycles.");
+        //    return Collections.emptyList();
+        //}
         List<Integer> circuit = new ArrayList<>();
         var stack = new Stack<Vertex>();
         stack.push(graph.getVertexByIdx(startVIdx));

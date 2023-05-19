@@ -14,7 +14,8 @@ import static org.junit.runners.Suite.*;
         DijkstraOnDirectedGraphTest.class,
         BellmanFordOnUndirectedGraphTest.class,
         BellmanFordOnDirectedGraphTest.class,
-        JohnsonTest.class
+        JohnsonTest.class,
+        ChinesePostmanTest.class
 })
 public class TestSuiteRunner {
 }

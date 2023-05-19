@@ -1,7 +1,5 @@
 package com.rolliedev;
 
-import com.rolliedev.algo.BellmanFord;
-import com.rolliedev.algo.Dijkstra;
 import com.rolliedev.algo.SingleSourceShortestPathAlgo;
 import com.rolliedev.model.Edge;
 import com.rolliedev.model.Graph;
@@ -19,15 +17,21 @@ public final class ChinesePostman<G extends UndirectedGraph> {
     public ChinesePostman() {
     }
 
-    public List<Integer> run(Class<? extends SingleSourceShortestPathAlgo> algoClass, G graph, int startVIdx) {
+    public List<Integer> run(SingleSourceShortestPathAlgo pathAlgo, G graph, int startVIdx) {
         var allCombinationsOfPairingOddDegreeVertices = getAllCombinationsOfPairingOddDegreeVertices(graph);
+        System.out.println(allCombinationsOfPairingOddDegreeVertices);
 
-        var edgesWithMinWeight = getEdgesWithMinWeight(graph, algoClass, allCombinationsOfPairingOddDegreeVertices);
-        int lengthOfRoute = graph.getSumOfAllEdges() + edgesWithMinWeight.stream().mapToInt(Edge::getWeight).sum();
-        increaseFrequencyOfGraphEdges(graph, edgesWithMinWeight);
+        int lengthOfRoute = graph.getSumOfAllEdges();
+        if (!allCombinationsOfPairingOddDegreeVertices.isEmpty()) {
+            var edgesWithMinWeight = getEdgesWithMinWeight(graph, pathAlgo, allCombinationsOfPairingOddDegreeVertices);
+            System.out.println(graph.getSumOfAllEdges());
+            lengthOfRoute += edgesWithMinWeight.stream().mapToInt(Edge::getWeight).sum();
+            increaseFrequencyOfGraphEdges(graph, edgesWithMinWeight);
+            System.out.println(edgesWithMinWeight);
+        }
 
         System.out.println("Chinese postman route: ");
-        List<Integer> eulerCircuit = GraphUtils.getEulerCircuit(graph, startVIdx);
+        List<Integer> eulerCircuit = GraphUtils.getEulerCircuit((UndirectedGraph) graph.clone(), startVIdx);
         eulerCircuit.forEach(vIdx -> System.out.print(vIdx + " "));
         System.out.printf("\nThe length of Chinese postman route is %d.\n\n", lengthOfRoute);
         return eulerCircuit;
@@ -43,18 +47,8 @@ public final class ChinesePostman<G extends UndirectedGraph> {
         }
     }
 
-    private List<Edge> getEdgesWithMinWeight(G graph, Class<? extends SingleSourceShortestPathAlgo> algoClass, List<List<List<Integer>>> allCombinations) {
+    private List<Edge> getEdgesWithMinWeight(G graph, SingleSourceShortestPathAlgo pathAlgo, List<List<List<Integer>>> allCombinations) {
         List<List<Edge>> edgesFromCombination = new ArrayList<>();
-
-        SingleSourceShortestPathAlgo pathAlgo;
-        if (algoClass.equals(BellmanFord.class)) {
-            pathAlgo = new BellmanFord(graph);
-        } else if (algoClass.equals(Dijkstra.class)) {
-            pathAlgo = new Dijkstra(graph);
-        } else {
-            throw new RuntimeException(String.format("An incorrect algorithm was passed: %s. There are only two options: %s and %s.",
-                    algoClass.getName(), BellmanFord.class.getName(), Dijkstra.class.getName()));
-        }
 
         for (List<List<Integer>> pairsFromCombination : allCombinations) {
             List<Edge> edgeHolderList = new ArrayList<>();

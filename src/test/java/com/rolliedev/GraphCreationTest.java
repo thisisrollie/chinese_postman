@@ -45,7 +45,7 @@ public class GraphCreationTest {
         };
         final UndirectedGraph graph = UndirectedGraph.getGraphFromAdjMatrix(validAdjMatrix);
         int sumOfAllEdges = graph.getSumOfAllEdges();
-        Assert.assertEquals(6, sumOfAllEdges);
+        Assert.assertEquals("Wrong sum of all edges", 6, sumOfAllEdges);
     }
 
     @Test
@@ -57,6 +57,6 @@ public class GraphCreationTest {
         };
         final DirectedGraph graph = DirectedGraph.getGraphFromAdjMatrix(validAdjMatrix);
         int sumOfAllEdges = graph.getSumOfAllEdges();
-        Assert.assertEquals(11, sumOfAllEdges);
+        Assert.assertEquals("Wrong sum of all edges", 11, sumOfAllEdges);
     }
 }
