@@ -49,14 +49,14 @@ public final class GraphUtils {
     }
 
     /**
-     * Hierholzer's algorithm was used in this function for finding the Euler circuit.
-     * This method requires for input an undirected graph and index of start vertex
+     * Hierholzer's algorithm was used in this function to find the Euler circuit.
+     * This method requires an undirected graph and the index of the starting vertex as input.
      */
     public static List<Integer> getEulerCircuit(UndirectedGraph graph, int startVIdx) {
-        //if (!isEuler(graph)) {
-        //    System.out.println("Graph does not have any Euler cycles.");
-        //    return Collections.emptyList();
-        //}
+        if (!isEuler(graph)) {
+            System.out.println("Graph does not have any Euler cycles.");
+            return Collections.emptyList();
+        }
         List<Integer> circuit = new ArrayList<>();
         var stack = new Stack<Vertex>();
         stack.push(graph.getVertexByIdx(startVIdx));

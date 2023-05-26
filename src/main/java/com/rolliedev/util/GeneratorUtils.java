@@ -23,7 +23,6 @@ public final class GeneratorUtils {
                 .collect(Collectors.toList());
     }
 
-
     private static boolean hasMutualVertices(List<List<Integer>> pairs, int cnt) {
         return pairs.stream()
                 .flatMap(Collection::stream)

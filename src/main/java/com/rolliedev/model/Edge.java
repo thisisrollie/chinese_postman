@@ -1,23 +1,22 @@
 package com.rolliedev.model;
 
 public abstract class Edge {
-    // TODO: 4/8/23 of edge or of an edge???
     /**
-     * It's a source vertex of an edge.
+     * It's a source vertex of the edge.
      */
     protected int srcVIdx;
     /**
-     * It's a destination vertex of edge.
+     * It's a destination vertex of the edge.
      */
     protected int destVIdx;
     /**
-     * It denotes the weight of edge.
+     * It denotes the weight of the edge.
      */
     protected int weight;
     /**
-     * This field we need for Chinese Postman Problem, where we can traverse the edge more than once.
-     * By default, it sets to 1.
-     * <p>For example, <b>frequency</b> = 1 means that we can traverse the edge only once.</p>
+     * This field is used in the Chinese Postman Problem, allowing us to traverse an edge multiple times.
+     * By default, its value is set to 1.
+     * <p>For example, when <b>frequency</b> = 1, it means that we can only traverse the edge once.</p>
      */
     protected int frequency;
 

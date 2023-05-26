@@ -115,7 +115,7 @@ public class ChinesePostmanTest {
                 {2, 0, 4},
                 {3, 4, 0}
         });
-        List<Integer> postmanRoute = chinesePostman.run(new Dijkstra(triangle), (UndirectedGraph) triangle.clone(), START_VERTEX_IDX);
+        List<Integer> postmanRoute = chinesePostman.run(new Dijkstra(triangle), triangle, START_VERTEX_IDX);
 
         int expectedLengthOfRoute = 9;
         int actualLengthOfRoute = triangle.getSumOfAllEdges();

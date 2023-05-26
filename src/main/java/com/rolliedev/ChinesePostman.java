@@ -24,7 +24,6 @@ public final class ChinesePostman<G extends UndirectedGraph> {
         int lengthOfRoute = graph.getSumOfAllEdges();
         if (!allCombinationsOfPairingOddDegreeVertices.isEmpty()) {
             var edgesWithMinWeight = getEdgesWithMinWeight(graph, pathAlgo, allCombinationsOfPairingOddDegreeVertices);
-            System.out.println(graph.getSumOfAllEdges());
             lengthOfRoute += edgesWithMinWeight.stream().mapToInt(Edge::getWeight).sum();
             increaseFrequencyOfGraphEdges(graph, edgesWithMinWeight);
             System.out.println(edgesWithMinWeight);

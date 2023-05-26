@@ -44,7 +44,6 @@ public class GeneratorUtilsTest {
 //        assertEquals(10_395, combinations.size());
 //    }
 
-    // TODO: 5/16/23 try to run this test
 //    @Test
 //    public void shouldReturn135_135() {
 //        var list = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14);

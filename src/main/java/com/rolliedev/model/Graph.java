@@ -43,7 +43,7 @@ public abstract class Graph {
     protected List<Vertex> getCloneVertices() {
         return vertices.stream()
                 .map(vertex -> (Vertex) vertex.clone())
-                .collect(Collectors.toCollection(ArrayList::new)); // i want to return a mutable list
+                .collect(Collectors.toCollection(ArrayList::new)); // I wanna return a mutable list
     }
 
     public List<Vertex> getAllNeighboursOfVertex(Vertex vertex) {
