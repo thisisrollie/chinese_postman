@@ -21,7 +21,7 @@ public final class GraphUtils {
     }
 
     /**
-     * This method throws exception if the matrix is empty or if it doesn't have square shape (matrix of size V x V)
+     * This method throws an exception if the matrix is empty or if it doesn't have a square shape (a matrix of size V x V).
      *
      * @param matrix given adjacency matrix
      */
@@ -32,14 +32,6 @@ public final class GraphUtils {
             throw new GraphCreationException("Failed creating a graph. The adjacency matrix must be a 2D array of size V x V, where V is number of vertices in a graph.\n" +
                     "Current matrix size: " + matrixSize + ".");
         }
-    }
-
-    public static int getLengthOfPostmanRoute(UndirectedGraph graph, List<Integer> postmanRoute) {
-        int routeLength = 0;
-        for (int i = 0; i < postmanRoute.size() - 1; i++) {
-            routeLength += graph.getEdge(graph.getVertexByIdx(postmanRoute.get(i)), graph.getVertexByIdx(postmanRoute.get(i + 1))).getWeight();
-        }
-        return routeLength;
     }
 
     public static boolean isEuler(Graph graph) {

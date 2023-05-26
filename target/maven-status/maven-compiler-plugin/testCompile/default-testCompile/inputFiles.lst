@@ -1,6 +1,10 @@
 /home/roland/all/Documents/bp/chinese_postman/src/test/java/com/rolliedev/DijkstraOnUndirectedGraphTest.java
 /home/roland/all/Documents/bp/chinese_postman/src/test/java/com/rolliedev/DijkstraOnDirectedGraphTest.java
 /home/roland/all/Documents/bp/chinese_postman/src/test/java/com/rolliedev/ChinesePostmanTest.java
+/home/roland/all/Documents/bp/chinese_postman/src/test/java/com/rolliedev/GraphCreationTest.java
 /home/roland/all/Documents/bp/chinese_postman/src/test/java/com/rolliedev/GeneratorUtilsTest.java
-/home/roland/all/Documents/bp/chinese_postman/src/test/java/com/rolliedev/FindPairsTest.java
+/home/roland/all/Documents/bp/chinese_postman/src/test/java/com/rolliedev/BellmanFordOnUndirectedGraphTest.java
+/home/roland/all/Documents/bp/chinese_postman/src/test/java/com/rolliedev/FindCombinationsInGraphsTest.java
+/home/roland/all/Documents/bp/chinese_postman/src/test/java/com/rolliedev/JohnsonTest.java
 /home/roland/all/Documents/bp/chinese_postman/src/test/java/com/rolliedev/TestSuiteRunner.java
+/home/roland/all/Documents/bp/chinese_postman/src/test/java/com/rolliedev/BellmanFordOnDirectedGraphTest.java

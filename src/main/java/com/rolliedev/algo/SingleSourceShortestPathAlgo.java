@@ -47,8 +47,8 @@ public abstract class SingleSourceShortestPathAlgo {
     }
 
     /**
-     * This method sets graph to initial state for future running of algorithm.
-     * Sets minimal distances to infinity for all vertices except the starting vertex, which minimal distance will be set to zero
+     * This method sets the graph to its initial state for future execution of the algorithm.
+     * It sets the minimal distances to infinity for all vertices except the starting vertex, whose minimal distance will be set to zero.
      *
      * @param startVertexIdx index of start vertex
      */

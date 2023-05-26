@@ -14,12 +14,11 @@ public final class Dijkstra extends SingleSourceShortestPathAlgo {
     }
 
     /**
-     * This method runs Dijkstra algorithm
+     * This method runs Dijkstra algorithm.
      *
      * @param startVIdx index of starting vertex - source vertex
      */
     public boolean run(int startVIdx) {
-//        graph = (Graph) originalGraph.clone(); // we need to make clone, because we want to save our graph in original state
         processGraph(startVIdx);
 
         PriorityQueue<Vertex> queue = new PriorityQueue<>(List.of(graph.getVertexByIdx(startVIdx)));
@@ -37,9 +36,9 @@ public final class Dijkstra extends SingleSourceShortestPathAlgo {
     }
 
     /**
-     * This method sets minimal distances for all neighbours of vertex.
-     * If current minimal distance of neighbour d(neighbourV) is bigger than sum of minimal distance of source vertex d(srcV) and
-     * weight of edge between these vertices w(srcV, neighbourV)
+     * This method sets minimal distances for all neighbours of the vertex.
+     * If the current minimal distance of the neighbour d(neighbourV) is greater than the sum of the minimal distance of the source vertex d(srcV)
+     * and the weight of the edge between these vertices w(srcV, neighbourV).
      *
      * @param graph      given graph
      * @param srcV       source vertex

@@ -13,13 +13,12 @@ public final class BellmanFord extends SingleSourceShortestPathAlgo {
     }
 
     /**
-     * This method runs Bellman Ford algorithm
+     * This method runs Bellman-Ford algorithm.
      *
      * @param startVIdx index of source vertex - starting vertex
      * @return true if a negative cycle was not found, false otherwise
      */
     public boolean run(int startVIdx) {
-//        graph = (Graph) originalGraph.clone();
         processGraph(startVIdx);
 
         for (int i = 0; i < graph.countOfVertices() - 1; i++) {

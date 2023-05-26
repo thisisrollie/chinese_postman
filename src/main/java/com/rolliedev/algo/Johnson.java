@@ -38,7 +38,7 @@ public final class Johnson {
                 .forEach(srcVertex -> {
                     // run dijkstra on each vertex
                     dijkstra.run(srcVertex.getIdx());
-                    // display paths from source vertex to other
+                    // display paths from source vertex to other vertices
                     dijkstra.displayPaths();
                     // return back the initial distances
                     List<Integer> minDistances = dijkstra.getMinDistances();
@@ -54,7 +54,7 @@ public final class Johnson {
     /**
      * @param graph given graph
      * @param q     new added vertex
-     * @return list of minimal distances from source vertex to another. If negative cycle is detected, then an empty list is returned
+     * @return The list contains the minimal distances from the source vertex to other vertices. If a negative cycle is detected, an empty list is returned.
      */
     private static List<Integer> runBellman(DirectedGraph graph, Vertex q) {
         BellmanFord bellmanFord = new BellmanFord(graph);

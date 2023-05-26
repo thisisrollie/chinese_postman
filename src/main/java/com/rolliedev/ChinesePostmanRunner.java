@@ -19,6 +19,3 @@ public class ChinesePostmanRunner {
         chinesePostman.run(new Dijkstra(graph), graph, 0);
     }
 }
-
-
-

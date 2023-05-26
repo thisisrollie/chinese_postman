@@ -2,5 +2,4 @@ com/rolliedev/DijkstraOnUndirectedGraphTest.class
 com/rolliedev/DijkstraOnDirectedGraphTest.class
 com/rolliedev/TestSuiteRunner.class
 com/rolliedev/ChinesePostmanTest.class
-com/rolliedev/FindPairsTest.class
 com/rolliedev/GeneratorUtilsTest.class
